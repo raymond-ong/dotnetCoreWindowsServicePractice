@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AvailableDataController.cs" />
     <Compile Include="Controllers\HierarchyController.cs" />
     <Compile Include="Controllers\DataCollectionController.cs" />
     <Compile Include="Controllers\KpiController.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="FileWebApiSvc.Designer.cs">
       <DependentUpon>FileWebApiSvc.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\AvailableData.cs" />
     <Compile Include="Models\Hierarchy.cs" />
     <Compile Include="Models\KpiData.cs" />
     <Compile Include="OnlyLocalHostAttribute.cs" />
