@@ -61,7 +61,7 @@ namespace FileWinSvcWebApi.Controllers
                 // Loops
                 for (int iTarget = 0; iTarget < 10 + iArea*100; iTarget++)
                 {
-                    string targetName = string.Format("FIC_{0:D2}_{1:D3}", iArea, iTarget);
+                    string targetName = string.Format("XFIC_{0:D2}_{1:D3}", iArea, iTarget);
                     KpiData newData = new KpiData()
                     {
                         TargetName = targetName,

@@ -71,10 +71,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accessors\AprSqlAccessor.cs" />
     <Compile Include="Controllers\AvailableDataController.cs" />
     <Compile Include="Controllers\HierarchyController.cs" />
     <Compile Include="Controllers\DataCollectionController.cs" />
     <Compile Include="Controllers\KpiController.cs" />
+    <Compile Include="Controllers\LayoutController.cs" />
     <Compile Include="FileWebApiSvc.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -84,6 +86,7 @@
     <Compile Include="Models\AvailableData.cs" />
     <Compile Include="Models\Hierarchy.cs" />
     <Compile Include="Models\KpiData.cs" />
+    <Compile Include="Models\LayoutData.cs" />
     <Compile Include="OnlyLocalHostAttribute.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">

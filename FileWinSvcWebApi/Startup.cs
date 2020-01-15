@@ -44,7 +44,10 @@ namespace FileWinSvcWebApi
             // Requires request to include "Origin" header.
             app.UseCors(builder =>
                         builder.WithOrigins("http://localhost", // Explicit domain and standard port.
-                                            "http://localhost:5111")); // Explicit domain and port.
+                                            "http://localhost:3000") // 3000 is the port of the React App!
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod()
+                        ); // Explicit domain and port.
 
             app.UseCors("CorsPolicy");
 
