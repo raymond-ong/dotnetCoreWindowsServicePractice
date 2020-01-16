@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using FileWinSvcWebApi.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Accessors
 {
@@ -39,6 +40,28 @@ namespace Accessors
             }
         }
 
+        internal ActionResult<IEnumerable<LayoutData>> RetrieveLayouts()
+        {
+            List<LayoutData> retList = new List<LayoutData>();
+            using (SqlCommand command = new SqlCommand("SELECT * FROM Layouts", connection))
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        retList.Add(new LayoutData()
+                        {
+                            Name = reader["Name"].ToString(),
+                            LayoutJson = reader["LayoutJson"].ToString(),
+                            LastUpdateDate = Convert.ToDateTime(reader["LastUpdateDate"])
+                        });
+                    }
+                }
+            }
+
+            return retList;
+        }
+
         internal void SaveLayout(LayoutData layout)
         {
             using (SqlCommand command = new SqlCommand("UPDATE Layouts set LayoutJson=@LayoutJson, LastUpdateDate=@LastUpdateDate WHERE Name=@Name;" +
@@ -50,6 +73,41 @@ namespace Accessors
                 command.ExecuteNonQuery();
             }
         }
+
+        internal ActionResult<IEnumerable<HierarchyView>> RetrieveHierarchyViews()
+        {
+            List<HierarchyView> retList = new List<HierarchyView>();
+            using (SqlCommand command = new SqlCommand("SELECT * FROM HierarchyViews", connection))
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        retList.Add(new HierarchyView()
+                        {
+                            ViewName = reader["ViewName"].ToString(),
+                            HierarchyJson = reader["HierarchyJson"].ToString(),
+                            NodeSettingsJson = reader["HierarchyJson"].ToString()
+                        });
+                    }
+                }
+            }
+
+            return retList;
+        }
+
+        internal void SaveHierarchyView(HierarchyView viewData)
+        {
+            using (SqlCommand command = new SqlCommand("UPDATE HierarchyViews set HierarchyJson=@HierarchyJson, NodeSettingsJson=@NodeSettingsJson WHERE ViewName=@ViewName;" +
+                "IF @@ROWCOUNT=0 INSERT INTO HierarchyViews(ViewName, HierarchyJson, NodeSettingsJson) VALUES (@ViewName, @HierarchyJson, @NodeSettingsJson)", connection))
+            {
+                command.Parameters.AddWithValue("@ViewName", "Default");
+                command.Parameters.AddWithValue("@HierarchyJson", viewData.HierarchyJson);
+                command.Parameters.AddWithValue("@NodeSettingsJson", viewData.NodeSettingsJson);
+                command.ExecuteNonQuery();
+            }
+        }
+
 
         /// <summary>
         /// Dispose method

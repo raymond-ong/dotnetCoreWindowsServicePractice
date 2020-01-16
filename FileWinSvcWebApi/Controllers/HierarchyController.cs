@@ -8,6 +8,16 @@ using System.Threading.Tasks;
 
 namespace FileWinSvcWebApi.Controllers
 {
+
+    // This class is for getting the Hierarchy from the Data Warehouse
+    // TODO: Maybe it's easier if we divide the data into 2 parts:
+    // [a] Hierarchical structure, that will only contain the keys
+    // [b] The "flat" hierarchy list, that will serve as lookup table
+
+    // For the user settings, maybe we can divide. But for the masterdata, we can return the full hierarchy as-is.
+    // For the user settings, we divide the data so that:
+    // [a] It's easier to build the tree structure, while consuming less storage space
+    // [b] Lookup won't take much time -- but how are we going to build the flat hierarchy if the master data is hierarchical?
     [Route("api/[controller]")]
     [ApiController]
     public class HierarchyController : ControllerBase
@@ -15,6 +25,8 @@ namespace FileWinSvcWebApi.Controllers
         [HttpGet]
         public ActionResult<Hierarchy> Get()
         {
+            // Realistically speaking, most likely the data warehouse will only contain "flat" hierarchy instead of hierarchical structure
+            // For now, we retain the hierarchical structure here
             Hierarchy h = new Hierarchy()
             {
                 Name = "Plant",

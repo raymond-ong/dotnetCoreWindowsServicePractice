@@ -17,17 +17,8 @@ namespace FileWinSvcWebApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<LayoutData>> Get()
         {
-            List<LayoutData> retList = new List<LayoutData>()
-            {
-                new LayoutData()
-                {
-                    Name="Dummy layout",
-                    LastUpdateTime = DateTime.Now,
-                    LayoutJson = "{someJson}"
-                }
-            };
-
-            return retList;
+            AprSqlAccessor accessor = new AprSqlAccessor("localhost");
+            return accessor.RetrieveLayouts();
         }
 
         [HttpPost]

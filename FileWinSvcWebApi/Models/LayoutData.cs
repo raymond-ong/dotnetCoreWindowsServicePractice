@@ -12,7 +12,7 @@ namespace FileWinSvcWebApi.Models
         
         public string LayoutJson { get; set; }
 
-        public DateTime LastUpdateTime { get; set; }
+        public DateTime LastUpdateDate { get; set; }
 
         //public int Revision { get; set; }
 
