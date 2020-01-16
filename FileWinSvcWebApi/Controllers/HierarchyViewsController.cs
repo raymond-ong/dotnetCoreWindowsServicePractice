@@ -33,17 +33,8 @@ namespace FileWinSvcWebApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<HierarchyView>> Get()
         {
-            //AprSqlAccessor accessor = new AprSqlAccessor("localhost");
-            //return accessor.RetrieveHierarchyViews();
-            return new List<HierarchyView>()
-            {
-                new HierarchyView()
-                {
-                    ViewName = "Defaaaault",
-                    HierarchyJson = "aa",
-                    NodeSettingsJson = "bb"
-                }
-            };
+            AprSqlAccessor accessor = new AprSqlAccessor("localhost");
+            return accessor.RetrieveHierarchyViews();
         }
 
         [HttpPost]

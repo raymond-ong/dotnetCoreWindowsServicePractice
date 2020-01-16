@@ -87,7 +87,7 @@ namespace Accessors
                         {
                             ViewName = reader["ViewName"].ToString(),
                             HierarchyJson = reader["HierarchyJson"].ToString(),
-                            NodeSettingsJson = reader["HierarchyJson"].ToString()
+                            NodeSettingsJson = reader["NodeSettingsJson"].ToString()
                         });
                     }
                 }
