@@ -53,7 +53,9 @@ namespace Accessors
                         {
                             Name = reader["Name"].ToString(),
                             LayoutJson = reader["LayoutJson"].ToString(),
-                            LastUpdateDate = Convert.ToDateTime(reader["LastUpdateDate"])
+                            LastUpdateDate = Convert.ToDateTime(reader["LastUpdateDate"]),
+                            NumRows = Convert.ToInt16(reader["NumRows"]),
+                            NumCols = Convert.ToInt16(reader["NumCols"])
                         });
                     }
                 }
@@ -65,11 +67,13 @@ namespace Accessors
         internal void SaveLayout(LayoutData layout)
         {
             using (SqlCommand command = new SqlCommand("UPDATE Layouts set LayoutJson=@LayoutJson, LastUpdateDate=@LastUpdateDate WHERE Name=@Name;" +
-                "IF @@ROWCOUNT=0 INSERT INTO Layouts(Name, LayoutJson, LastUpdateDate) VALUES (@Name, @LayoutJson, @LastUpdateDate)", connection))
+                "IF @@ROWCOUNT=0 INSERT INTO Layouts(Name, LayoutJson, LastUpdateDate, NumRows, NumCols) VALUES (@Name, @LayoutJson, @LastUpdateDate, @NumRows, @NumCols)", connection))
             {
                 command.Parameters.AddWithValue("@Name", layout.Name);
                 command.Parameters.AddWithValue("@LayoutJson", layout.LayoutJson);
                 command.Parameters.AddWithValue("@LastUpdateDate", DateTime.Now);
+                command.Parameters.AddWithValue("@NumRows", layout.NumRows);
+                command.Parameters.AddWithValue("@NumCols", layout.NumCols);
                 command.ExecuteNonQuery();
             }
         }

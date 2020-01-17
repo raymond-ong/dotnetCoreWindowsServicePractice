@@ -14,6 +14,9 @@ namespace FileWinSvcWebApi.Models
 
         public DateTime LastUpdateDate { get; set; }
 
+        public short NumRows { get; set; }
+
+        public short NumCols { get; set; }
         //public int Revision { get; set; }
 
     }
