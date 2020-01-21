@@ -50,9 +50,9 @@ namespace FileWinSvcWebApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<KpiData>> Get()
+        public ActionResult<IEnumerable<KpiDataDcTest>> Get()
         {
-            List<KpiData> retList = new List<KpiData>();
+            List<KpiDataDcTest> retList = new List<KpiDataDcTest>();
             var valveKpisFlat = ValveKpis.SelectMany(d => d.Value.Select(v => new Tuple<string, string>(d.Key, v)));
 
             // Loops
@@ -62,7 +62,7 @@ namespace FileWinSvcWebApi.Controllers
                 for (int iTarget = 0; iTarget < 10 + iArea*100; iTarget++)
                 {
                     string targetName = string.Format("XFIC_{0:D2}_{1:D3}", iArea, iTarget);
-                    KpiData newData = new KpiData()
+                    KpiDataDcTest newData = new KpiDataDcTest()
                     {
                         TargetName = targetName,
                         DiagnosticName = "Loop Controllability",
@@ -81,7 +81,7 @@ namespace FileWinSvcWebApi.Controllers
 
                     foreach(var kpi in valveKpisFlat)
                     {
-                        KpiData newData = new KpiData()
+                        KpiDataDcTest newData = new KpiDataDcTest()
                         {
                             TargetName = targetName,
                             DiagnosticName = kpi.Item1,

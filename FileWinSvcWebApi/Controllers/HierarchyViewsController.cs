@@ -33,7 +33,7 @@ namespace FileWinSvcWebApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<HierarchyView>> Get()
         {
-            AprSqlAccessor accessor = new AprSqlAccessor("localhost");
+            IsaeAprAccessor accessor = new IsaeAprAccessor("localhost");
             return accessor.RetrieveHierarchyViews();
         }
 
@@ -44,7 +44,7 @@ namespace FileWinSvcWebApi.Controllers
             //Console.WriteLine("{0}, {1}, {2}", layout.Name, layout.LastUpdateTime, layout.LayoutJson);
             try
             {
-                AprSqlAccessor accessor = new AprSqlAccessor("localhost");
+                IsaeAprAccessor accessor = new IsaeAprAccessor("localhost");
                 accessor.SaveHierarchyView(viewData);
             }
             catch(Exception ex)

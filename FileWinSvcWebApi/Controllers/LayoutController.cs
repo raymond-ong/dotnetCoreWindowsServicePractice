@@ -17,7 +17,7 @@ namespace FileWinSvcWebApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<LayoutData>> Get()
         {
-            AprSqlAccessor accessor = new AprSqlAccessor("localhost");
+            IsaeAprAccessor accessor = new IsaeAprAccessor("localhost");
             return accessor.RetrieveLayouts();
         }
 
@@ -27,7 +27,7 @@ namespace FileWinSvcWebApi.Controllers
         {
             //Console.WriteLine("{0}, {1}, {2}", layout.Name, layout.LastUpdateTime, layout.LayoutJson);
 
-            AprSqlAccessor accessor = new AprSqlAccessor("localhost");
+            IsaeAprAccessor accessor = new IsaeAprAccessor("localhost");
             accessor.SaveLayout(layout);
 
             return layout;

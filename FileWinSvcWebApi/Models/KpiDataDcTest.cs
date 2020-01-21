@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace FileWinSvcWebApi.Models
 {
     // Flat class, for testing dc.js
-    public class KpiData
+    public class KpiDataDcTest
     {
         public string TargetName { get; set; }
         public string FullPath { get; set; }

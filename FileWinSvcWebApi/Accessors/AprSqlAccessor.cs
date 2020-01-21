@@ -10,14 +10,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Accessors
 {
-    public class AprSqlAccessor : IDisposable
+    public class IsaeAprAccessor : IDisposable
     {
         private const string CONNECTION_STRING = @"server='{0}';Initial Catalog=ISAE_APR;user ID='IsaeApr';password='IsaeApr'";
 
         private SqlConnection connection;
         private bool disposed = false;
 
-        public AprSqlAccessor(string serverName)
+        public IsaeAprAccessor(string serverName)
         {
             try
             {
