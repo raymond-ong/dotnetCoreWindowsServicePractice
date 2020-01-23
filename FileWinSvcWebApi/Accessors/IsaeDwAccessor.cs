@@ -40,12 +40,46 @@ namespace Accessors
             }
         }
 
-        public void GetConsolidatedHierarchy()
+        public List<HierarchyBase> GetConsolidatedHierarchy()
         {
-            // maybe not needed for now
-            throw new NotImplementedException();
+            // Dillema: do we send it out in hierarchical structure or flat structure?
+            // For this function, just give the flat structure
+            // Maybe make it a parameter whether to give it as flat or hierarchical
+            List<HierarchyBase> retList = new List<HierarchyBase>();
+
+            using (SqlCommand command = new SqlCommand(@"SELECT * FROM DimHierarchyConsolidated", connection))
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        HierarchyBase newHier = new HierarchyBase()
+                        {
+                            Id = Convert.ToInt64(reader["Id"]),
+                            //ParentId = reader["ParentId"] == DBNull.Value ? null : Convert.ToInt64(reader["ParentId"]),
+                            ParentId = null,
+                            ServerName = reader["ServerName"].ToString(),
+                            NodeName = reader["NodeName"].ToString(),
+                            FullPath = reader["FullPath"].ToString(),
+                            UnitType = reader["UnitType"].ToString(),
+                            Children = new List<HierarchyBase>()
+                        };
+
+                        if (reader["ParentId"] != DBNull.Value)
+                        {
+                            newHier.ParentId = Convert.ToInt64(reader["ParentId"]);
+                        }
+
+                        retList.Add(newHier);
+                    }
+                }
+            }
+
+            return retList;
         }
 
+        // Will only return the direct KPI's associated to a hierarchy.
+        // If there is a need to retrive all the KPI's under a folder, the Javascript client will take care of consolidating.
         public Dictionary<string, List<KpiInfo>> GetConsolidatedHierarchyKpi()
         {
             Dictionary<string, List<KpiInfo>> retDict = new Dictionary<string, List<KpiInfo>>();

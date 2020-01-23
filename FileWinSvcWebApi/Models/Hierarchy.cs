@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace FileWinSvcWebApi.Models
 {
+    // TODO: Obsolete this class.
+    // Currently this class is only used for returning Dummy Data to Web Client
     public class Hierarchy
     {
         public string Name { get; set; }

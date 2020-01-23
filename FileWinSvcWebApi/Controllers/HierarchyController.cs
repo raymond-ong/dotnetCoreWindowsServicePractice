@@ -1,4 +1,6 @@
-﻿using FileWinSvcWebApi.Models;
+﻿using Accessors;
+using FileWinSvcWebApi.Models;
+using FileWinSvcWebApi.Utility;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -48,5 +50,22 @@ namespace FileWinSvcWebApi.Controllers
             };
             return h;
         }
+
+        [HttpGet]
+        [Route("conso")]
+        // access via http://localhost:60000/api/Hierarchy/conso
+        public ActionResult<IEnumerable<HierarchyBase>> GetConsolidated()
+        {
+            // Get the "flat" hierarchy from the database first, then call another function to hydrate the children 
+            IsaeDwAccessor accessor = new IsaeDwAccessor("192.168.56.130");
+            List<HierarchyBase> hierConsoList = accessor.GetConsolidatedHierarchy();
+            HierarchyHelper.HydrateHierarchyChildren(hierConsoList);
+            // return the root children only
+            var rootChildrenQry = hierConsoList.Where(h => h.ParentId == null);
+
+            return rootChildrenQry.ToList();
+        }
     }
+
+
 }
