@@ -39,9 +39,9 @@
             // 
             // serviceInstaller1
             // 
-            this.serviceInstaller1.Description = "Access files through Web API";
-            this.serviceInstaller1.DisplayName = "File Web API Service";
-            this.serviceInstaller1.ServiceName = "FileWebApiSvc";
+            this.serviceInstaller1.Description = "Web API for ISAE APR";
+            this.serviceInstaller1.DisplayName = "ISAE APR Web API Service";
+            this.serviceInstaller1.ServiceName = "IsaeAprWebApiService";
             // 
             // ProjectInstaller
             // 

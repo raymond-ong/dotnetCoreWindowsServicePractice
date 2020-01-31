@@ -12,15 +12,15 @@ namespace FileWinSvcWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HierarchyKpiController : ControllerBase
+    public class DimensionsController : ControllerBase
     {
         [HttpGet]
         //public ActionResult<IEnumerable<LayoutData>> Get()
-        public ActionResult<Dictionary<string, Dictionary<string, List<string>>>> Get()
+        public ActionResult<IEnumerable<TableProps>> Get()
         {
             IsaeDwAccessor accessor = new IsaeDwAccessor("localhost");
-            Dictionary<string, Dictionary<string, List<string>>> retDict = accessor.GetConsolidatedHierarchyKpi();
-            return retDict;
+            List<TableProps> retList = accessor.GetDimensions();
+            return retList;
         }
     }
 }

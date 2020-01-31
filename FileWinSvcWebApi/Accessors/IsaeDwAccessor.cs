@@ -12,7 +12,8 @@ namespace Accessors
 {
     public class IsaeDwAccessor : IDisposable
     {
-        private const string CONNECTION_STRING = @"server='{0}\ISAESQLSERVER';Initial Catalog=IsaeDw;user ID='IsaeDw';password='IsaeDw'";
+        //private const string CONNECTION_STRING = @"server='{0}\ISAESQLSERVER';Initial Catalog=IsaeDw;user ID='IsaeDw';password='IsaeDw'";
+        private const string CONNECTION_STRING = @"server='{0}';Initial Catalog=IsaeDw;user ID='IsaeDw';password='IsaeDw'";
 
         private SqlConnection connection;
         private bool disposed = false;
@@ -80,7 +81,7 @@ namespace Accessors
 
         // Will only return the direct KPI's associated to a hierarchy.
         // If there is a need to retrive all the KPI's under a folder, the Javascript client will take care of consolidating.
-        public Dictionary<string, List<KpiInfo>> GetConsolidatedHierarchyKpi()
+        public Dictionary<string, List<KpiInfo>> GetConsolidatedHierarchyKpiOrig()
         {
             Dictionary<string, List<KpiInfo>> retDict = new Dictionary<string, List<KpiInfo>>();
             using (SqlCommand command = new SqlCommand(@"select FullPath, NodeName, g.Name as KpiGroupName, k.Name as KpiName " +
@@ -116,6 +117,97 @@ namespace Accessors
             }
 
             return retDict;
+        }
+
+        // Will only return the direct KPI's associated to a hierarchy.
+        // If there is a need to retrive all the KPI's under a folder, the Javascript client will take care of consolidating.
+        // Dict Key: Path
+        // Dict Value: Dict of Kpi Group and Kpi List
+        // Note: this API is meant for lookup purposes, so keep it small.
+        public Dictionary<string, Dictionary<string, List<string>>> GetConsolidatedHierarchyKpi()
+        {
+            Dictionary<string, Dictionary<string, List<string>>> retDict = new Dictionary<string, Dictionary<string, List<string>>>();
+            using (SqlCommand command = new SqlCommand(@"select FullPath, NodeName, g.Name as KpiGroupName, k.Name as KpiName " +
+                                                        "from DimHierarchyKpiConsolidated conso " +
+                                                        "JOIN DimHierarchyConsolidated h ON conso.HierarchyConsoId = h.Id " +
+                                                        "JOIN DimKpi k ON conso.KpiConsoId = k.Id " +
+                                                        "JOIN DimKpiGroup g ON g.Id = k.KpiGroupId ",
+                                                        connection))
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        // [1] Find the KPI grouo, given the path
+                        string FullPath = reader["FullPath"].ToString();
+                        string KpiGroupName = reader["KpiGroupName"].ToString();
+                        string KpiName = reader["KpiName"].ToString();
+
+                        Dictionary<string, List<string>> kpiGroupsList = null;
+
+                        if (!retDict.TryGetValue(FullPath, out kpiGroupsList))
+                        {
+                            kpiGroupsList = new Dictionary<string, List<string>>();
+                            retDict[FullPath] = kpiGroupsList;
+                        }
+
+                        // [2] Find the KPI given the KPI Groups list
+                        List<string> kpisList = null;
+                        if (!kpiGroupsList.TryGetValue(KpiGroupName, out kpisList))
+                        {
+                            kpisList = new List<string>();
+                            kpiGroupsList[KpiGroupName] = kpisList;
+                        }
+
+                        // [3] If KPI is not yet in the list, add it
+                        if (!kpisList.Contains(KpiName))
+                        {
+                            kpisList.Add(KpiName);
+                        }
+                    }
+                }
+            }
+
+            return retDict;
+        }
+
+        public Dictionary<string, List<KpiInfo>> GetKpiMaster()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<TableProps> GetDimensions()
+        {
+            List<TableProps> retList = new List<TableProps>();
+
+            using (SqlCommand command = new SqlCommand(@"dbo.GetTableProps", connection))
+            {
+                command.Parameters.AddWithValue("@TableName", "DimHierarchy");
+                command.CommandType = CommandType.StoredProcedure;
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        TableProps tableProps = new TableProps()
+                        {
+                            ColumnName = reader["ColumnName"].ToString(),
+                            Datatype = reader["Datatype"].ToString(),
+                            /* Remove unnecessary props
+                            MaxLength = Convert.ToUInt16(reader["MaxLength"]),
+                            Precision = Convert.ToUInt16(reader["Precision"]),
+                            Scale = Convert.ToUInt16(reader["Scale"]),
+                            Nullable = Convert.ToBoolean(reader["Nullable"]),
+                            PrimaryKey = Convert.ToBoolean(reader["PrimaryKey"]),
+                            */
+                        };
+
+                        retList.Add(tableProps);
+                    }
+                }
+            }
+
+            return retList;
         }
 
         /// <summary>
