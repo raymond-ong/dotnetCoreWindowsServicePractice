@@ -74,6 +74,7 @@
     <Compile Include="Accessors\AprSqlAccessor.cs" />
     <Compile Include="Accessors\IsaeDwAccessor.cs" />
     <Compile Include="Controllers\AvailableDataController.cs" />
+    <Compile Include="Controllers\DataController.cs" />
     <Compile Include="Controllers\DimensionsController.cs" />
     <Compile Include="Controllers\HierarchyController.cs" />
     <Compile Include="Controllers\DataCollectionController.cs" />
