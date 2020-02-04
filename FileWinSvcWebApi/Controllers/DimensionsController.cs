@@ -18,7 +18,7 @@ namespace FileWinSvcWebApi.Controllers
         //public ActionResult<IEnumerable<LayoutData>> Get()
         public ActionResult<IEnumerable<TableProps>> Get()
         {
-            IsaeDwAccessor accessor = new IsaeDwAccessor("localhost");
+            IsaeDwAccessor accessor = new IsaeDwAccessor("192.168.56.130\\ISAESQLSERVER");
             List<TableProps> retList = accessor.GetDimensions();
             return retList;
         }

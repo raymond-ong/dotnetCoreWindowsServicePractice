@@ -57,7 +57,7 @@ namespace FileWinSvcWebApi.Controllers
         public ActionResult<IEnumerable<HierarchyBase>> GetConsolidated()
         {
             // Get the "flat" hierarchy from the database first, then call another function to hydrate the children 
-            IsaeDwAccessor accessor = new IsaeDwAccessor("localhost");
+            IsaeDwAccessor accessor = new IsaeDwAccessor("192.168.56.130\\ISAESQLSERVER");
             List<HierarchyBase> hierConsoList = accessor.GetConsolidatedHierarchy();
             HierarchyHelper.HydrateHierarchyChildren(hierConsoList);
             // return the root children only

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Accessors;
+using FileWinSvcWebApi.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +14,11 @@ namespace FileWinSvcWebApi.Controllers
     public class DataController : ControllerBase
     {
         [HttpPost]
-        public ActionResult<IEnumerable<string>> Post()
+        public ActionResult<IEnumerable<ResultData>> Post(RequestData request)
         {
+            IsaeDwAccessor accessor = new IsaeDwAccessor("192.168.56.130\\ISAESQLSERVER");
             Console.WriteLine("Post");
+            List<ResultData> retData = accessor.queryData(request);
 
             return null;
         }

@@ -18,7 +18,7 @@ namespace FileWinSvcWebApi.Controllers
         //public ActionResult<IEnumerable<LayoutData>> Get()
         public ActionResult<Dictionary<string, Dictionary<string, List<string>>>> Get()
         {
-            IsaeDwAccessor accessor = new IsaeDwAccessor("localhost");
+            IsaeDwAccessor accessor = new IsaeDwAccessor("192.168.56.130\\ISAESQLSERVER");
             Dictionary<string, Dictionary<string, List<string>>> retDict = accessor.GetConsolidatedHierarchyKpi();
             return retDict;
         }
