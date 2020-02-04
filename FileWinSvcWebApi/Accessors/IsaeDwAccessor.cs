@@ -18,29 +18,35 @@ namespace Accessors
         private SqlConnection connection;
         private bool disposed = false;
 
-        private string getDimColumnsCsv(RequestData request, string prefix)
+        private string getDimColumnsCsv(RequestData request, string prefix=null)
         {
             if (request.Dimensions == null || request.Dimensions.Count == 0)
             {
                 return null;
+            }
+
+            if (string.IsNullOrEmpty(prefix))
+            {
+                return string.Join(",", request.Dimensions);
             }
             return string.Join(",", $"{prefix}.{request.Dimensions}" );
         }
 
         internal List<ResultData> queryData(RequestData request)
         {
-            string paramDimensionColumns = getDimColumnsCsv(request);
-            string paramKpiColumns = getDimColumnsCsv(request);
+            //string paramDimensionColumns = getDimColumnsCsv(request);
+            //string paramKpiColumns = getDimColumnsCsv(request, null);
 
-            string sqlQuery = @"DECLARE  @LatestCollectionKey INT = (select top 1 CollectionDateKey from FactDataCollection order by CollectionDateKey desc);" +
-                            "select d.HierarchyPath ,d.KpiStatus, d.KpiStatusValue, d.KpiValue," +
-                            $"{ }" + 
-                            "k.Name as KpiName, " +
-                            "kg.Name as KpiGroupName " +
-                            "JOIN DimHierarchy h ON h.Fullpath = d.HierarchyPath " +
-                            "where d.CollectionDateKey = @LatestCollectionKey " +
-                            "AND h.CollectionDateKey = @LatestCollectionKey " +
-                            "AND h.";
+            //string sqlQuery = @"DECLARE  @LatestCollectionKey INT = (select top 1 CollectionDateKey from FactDataCollection order by CollectionDateKey desc);" +
+            //                "select d.HierarchyPath ,d.KpiStatus, d.KpiStatusValue, d.KpiValue," +
+            //                $"{ }" + 
+            //                "k.Name as KpiName, " +
+            //                "kg.Name as KpiGroupName " +
+            //                "JOIN DimHierarchy h ON h.Fullpath = d.HierarchyPath " +
+            //                "where d.CollectionDateKey = @LatestCollectionKey " +
+            //                "AND h.CollectionDateKey = @LatestCollectionKey " +
+            //                "AND h.";
+            throw new NotImplementedException();
         }
 
         public IsaeDwAccessor(string serverName)

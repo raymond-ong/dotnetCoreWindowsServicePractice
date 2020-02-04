@@ -94,10 +94,12 @@
     <Compile Include="Models\HierarchyBase.cs" />
     <Compile Include="Models\HierarchyKpi.cs" />
     <Compile Include="Models\HierarchyView.cs" />
+    <Compile Include="Models\KpiData.cs" />
     <Compile Include="Models\KpiGroupInfo.cs" />
     <Compile Include="Models\KpiInfo.cs" />
     <Compile Include="Models\KpiDataDcTest.cs" />
     <Compile Include="Models\LayoutData.cs" />
+    <Compile Include="Models\RequestData.cs" />
     <Compile Include="Models\TableProps.cs" />
     <Compile Include="OnlyLocalHostAttribute.cs" />
     <Compile Include="Program.cs" />
@@ -113,6 +115,7 @@
     <Compile Include="WebSocketsMiddleware.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\ResultData.cs" />
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
